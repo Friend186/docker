@@ -4,8 +4,9 @@ FROM ultralytics/ultralytics:latest-jetson
 # Set our working directory inside the container
 WORKDIR /workspace
 
-# Install the Kaggle API tool
-RUN pip install kaggle
+# Remove standard OpenCV and install the Headless version + Kaggle
+RUN pip uninstall -y opencv-python opencv-python-headless && \
+    pip install kaggle opencv-python-headless
 
 # Copy our Python script into the container
 COPY test.py .
