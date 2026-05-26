@@ -4,9 +4,12 @@ FROM ultralytics/ultralytics:latest-jetson
 # Set our working directory inside the container
 WORKDIR /workspace
 
-# Remove standard OpenCV and install the Headless version + Kaggle
-RUN pip uninstall -y opencv-python opencv-python-headless && \
-    pip install kaggle opencv-python-headless
+# Uninstall the broken new versions
+RUN pip uninstall -y opencv-python opencv-python-headless
+
+# Install Kaggle AND explicitly install an older version of headless OpenCV 
+# that is compatible with Ubuntu 20.04
+RUN pip install kaggle "opencv-python-headless<4.9"
 
 # Copy our Python script into the container
 COPY test.py .
